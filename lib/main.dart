@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolist_flutter_app/router.dart';
+import 'package:todolist_flutter_app/routing/router.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 
