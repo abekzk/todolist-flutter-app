@@ -4,15 +4,20 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
 import 'package:todolist_flutter_app/models/task.dart';
 import 'package:todolist_flutter_app/services/api/client.dart';
+import 'package:todolist_flutter_app/services/firebase/auth.dart';
 
-final taskRepositoryProvider = Provider((ref) =>
-    TaskRepository(client: CustomClient(), baseURL: 'http://localhost:8080'));
+final taskRepositoryProvider = Provider((ref) {
+  final auth = ref.watch(firebaseAuthProvider);
+  return TaskRepository(
+      client: CustomClient(firebaseAuth: auth),
+      baseURL: 'http://localhost:8080');
+});
 
 class TaskRepository {
   final http.Client client;
   final String baseURL;
 
-  TaskRepository({required this.baseURL, required this.client});
+  TaskRepository({required this.client, required this.baseURL});
 
   Future<Tasks> fetchTasks() async {
     final response = await client.get(

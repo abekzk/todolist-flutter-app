@@ -4,10 +4,13 @@ import 'dart:io';
 
 class CustomClient extends http.BaseClient {
   final _client = http.Client();
+  final FirebaseAuth firebaseAuth;
+
+  CustomClient({required this.firebaseAuth});
 
   @override
   Future<http.StreamedResponse> send(http.BaseRequest request) async {
-    String token = await FirebaseAuth.instance.currentUser!.getIdToken();
+    String token = await firebaseAuth.currentUser!.getIdToken(); // TODO: null処理
     request.headers[HttpHeaders.authorizationHeader] = 'Bearer $token';
     return _client.send(request);
   }
