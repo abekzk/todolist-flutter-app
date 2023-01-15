@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:todolist_flutter_app/features/todolist/controller.dart';
+import 'package:todolist_flutter_app/features/todolist/state_controller.dart';
 import 'package:todolist_flutter_app/models/task.dart';
 
 class TodoListView extends ConsumerWidget {
