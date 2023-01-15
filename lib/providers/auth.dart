@@ -17,8 +17,7 @@ class AuthController extends ChangeNotifier {
   AuthController(this._auth) {
     _auth.authStateChanges().listen((user) {
       if (user != null) {
-        state.user =
-            AppUser(id: user.uid, name: user.displayName!, email: user.email!);
+        state.user = AppUser.fromFirebaseUser(user);
         notifyListeners();
       } else {
         state.user = null;
