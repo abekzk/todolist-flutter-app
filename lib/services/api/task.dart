@@ -6,13 +6,6 @@ import 'package:todolist_flutter_app/models/task.dart';
 import 'package:todolist_flutter_app/services/api/client.dart';
 import 'package:todolist_flutter_app/services/firebase/auth.dart';
 
-final taskRepositoryProvider = Provider((ref) {
-  final auth = ref.watch(firebaseAuthProvider);
-  return TaskRepository(
-      client: CustomClient(firebaseAuth: auth),
-      baseURL: 'http://localhost:8080');
-});
-
 class TaskRepository {
   final http.Client client;
   final String baseURL;
@@ -41,3 +34,10 @@ class TaskRepository {
     }
   }
 }
+
+final taskRepositoryProvider = Provider((ref) {
+  final auth = ref.watch(firebaseAuthProvider);
+  return TaskRepository(
+      client: CustomClient(firebaseAuth: auth),
+      baseURL: 'http://localhost:8080');
+});

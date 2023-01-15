@@ -10,11 +10,11 @@ class AuthState {
   AuthState({required this.user});
 }
 
-class AuthNotifier extends ChangeNotifier {
+class AuthController extends ChangeNotifier {
   final FirebaseAuth _auth;
   final AuthState state = AuthState(user: null);
 
-  AuthNotifier(this._auth) {
+  AuthController(this._auth) {
     _auth.authStateChanges().listen((user) {
       if (user != null) {
         state.user =
@@ -36,7 +36,7 @@ class AuthNotifier extends ChangeNotifier {
   }
 }
 
-final authProvider = ChangeNotifierProvider<AuthNotifier>(((ref) {
+final authProvider = ChangeNotifierProvider<AuthController>(((ref) {
   final auth = ref.watch(firebaseAuthProvider);
-  return AuthNotifier(auth);
+  return AuthController(auth);
 }));

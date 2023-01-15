@@ -9,7 +9,7 @@ class TodoListView extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scrollbar(
-        child: ref.watch(tasksFetchProvider).when(
+        child: ref.watch(todoListStateTasks).when(
             data: (data) => ListView.builder(
                 itemCount: data.length,
                 itemBuilder: ((context, index) {
@@ -20,7 +20,7 @@ class TodoListView extends ConsumerWidget {
                           : Icons.check_circle),
                       title: Text(task.title),
                       onTap: () => ref
-                          .watch(todoListControllerProvider)
+                          .read(todoListControllerProvider)
                           .toggleTaskStatus(task));
                 })),
             loading: () => const Center(child: CircularProgressIndicator()),
