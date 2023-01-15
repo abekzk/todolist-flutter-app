@@ -8,23 +8,26 @@ class TodoListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Scrollbar(
-        child: ref.watch(todoListStateTasks).when(
-            data: (data) => ListView.builder(
-                itemCount: data.length,
-                itemBuilder: ((context, index) {
-                  final task = data[index];
-                  return ListTile(
-                      leading: Icon(task.status == TaskStatus.todo
-                          ? Icons.circle_outlined
-                          : Icons.check_circle),
-                      title: Text(task.title),
-                      onTap: () => ref
-                          .read(todoListControllerProvider)
-                          .toggleTaskStatus(task));
-                })),
-            loading: () => const Center(child: CircularProgressIndicator()),
-            error: ((error, stackTrace) =>
-                Center(child: Text(error.toString())))));
+    return RefreshIndicator(
+        onRefresh: () async =>
+            ref.read(todoListControllerProvider).refreshState(),
+        child: Scrollbar(
+            child: ref.watch(todoListStateTasks).when(
+                data: (data) => ListView.builder(
+                    itemCount: data.length,
+                    itemBuilder: ((context, index) {
+                      final task = data[index];
+                      return ListTile(
+                          leading: Icon(task.status == TaskStatus.todo
+                              ? Icons.circle_outlined
+                              : Icons.check_circle),
+                          title: Text(task.title),
+                          onTap: () => ref
+                              .read(todoListControllerProvider)
+                              .toggleTaskStatus(task));
+                    })),
+                loading: () => const Center(child: CircularProgressIndicator()),
+                error: ((error, stackTrace) =>
+                    Center(child: Text(error.toString()))))));
   }
 }

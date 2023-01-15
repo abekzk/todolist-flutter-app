@@ -15,6 +15,10 @@ class TodoListController {
 
   TodoListController({required this.ref, required this.taskRepository});
 
+  refreshState() async {
+    var _ = ref.refresh(todoListStateTasks);
+  }
+
   toggleTaskStatus(Task task) async {
     TaskStatus newStatus =
         task.status == TaskStatus.todo ? TaskStatus.done : TaskStatus.todo;
