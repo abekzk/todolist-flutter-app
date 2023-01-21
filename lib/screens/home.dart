@@ -10,7 +10,6 @@ class HomeScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final firebaseAuth = ref.watch(firebaseAuthProvider);
     return Scaffold(
       appBar: AppBar(
         title: const Text("Home"),
@@ -18,7 +17,7 @@ class HomeScreen extends ConsumerWidget {
           TextButton(
               style: TextButton.styleFrom(foregroundColor: Colors.white),
               onPressed: () async {
-                await firebaseAuth.signOut();
+                await ref.read(authProvider.notifier).signOut();
               },
               child: const Text('ログアウト'))
         ],

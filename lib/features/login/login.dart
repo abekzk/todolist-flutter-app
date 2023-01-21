@@ -16,7 +16,6 @@ class _LoginViewState extends ConsumerState<LoginView> {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseAuth = ref.watch(firebaseAuthProvider);
     return Center(
       child: Container(
         padding: const EdgeInsets.all(80.0),
@@ -50,9 +49,9 @@ class _LoginViewState extends ConsumerState<LoginView> {
             ElevatedButton(
               onPressed: () async {
                 try {
-                  final credential =
-                      await firebaseAuth.signInWithEmailAndPassword(
-                          email: email, password: password);
+                  final credential = await ref
+                      .read(authProvider.notifier)
+                      .signIn(email: email, password: password);
                 } on FirebaseAuthException catch (e) {
                   print(e);
                 }

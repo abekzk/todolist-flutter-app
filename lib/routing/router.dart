@@ -5,7 +5,7 @@ import 'package:todolist_flutter_app/screens/home.dart';
 import 'package:todolist_flutter_app/screens/login.dart';
 
 final routerProvider = Provider<GoRouter>((ref) {
-  final authStateChanges = ref.watch(authStateChangesProvider);
+  final auth = ref.watch(authProvider);
   return GoRouter(
       initialLocation: HomeScreen.routeName,
       routes: <RouteBase>[
@@ -17,13 +17,12 @@ final routerProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const LoginScreen())
       ],
       redirect: (context, state) {
-        if (authStateChanges.isLoading || authStateChanges.hasError)
-          return null;
-        final isAuth = authStateChanges.valueOrNull != null;
-        if (isAuth) {
+        final isLoggedIn = auth.state.user != null;
+        if (isLoggedIn) {
           return null;
         } else {
           return LoginScreen.routeName;
         }
-      });
+      },
+      refreshListenable: auth);
 });
