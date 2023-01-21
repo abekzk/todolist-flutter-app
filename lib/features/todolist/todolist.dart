@@ -8,9 +8,9 @@ class TodoListView extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final controller = ref.read(todoListControllerProvider);
     return RefreshIndicator(
-        onRefresh: () async =>
-            ref.read(todoListControllerProvider).refreshState(),
+        onRefresh: () async => controller.refreshState(),
         child: Scrollbar(
             child: ref.watch(todoListStateTasks).when(
                 data: (data) => ListView.builder(
@@ -22,9 +22,7 @@ class TodoListView extends ConsumerWidget {
                               ? Icons.circle_outlined
                               : Icons.check_circle),
                           title: Text(task.title),
-                          onTap: () => ref
-                              .read(todoListControllerProvider)
-                              .toggleTaskStatus(task));
+                          onTap: () => controller.toggleTaskStatus(task));
                     })),
                 loading: () => const Center(child: CircularProgressIndicator()),
                 error: ((error, stackTrace) =>

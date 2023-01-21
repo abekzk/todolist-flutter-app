@@ -10,24 +10,24 @@ final todoListStateTasks = FutureProvider.autoDispose((ref) {
 
 // controller
 class TodoListController {
-  final Ref ref;
+  final AutoDisposeRef ref;
   final TaskRepository taskRepository;
 
   TodoListController({required this.ref, required this.taskRepository});
 
-  refreshState() async {
+  void refreshState() async {
     var _ = ref.refresh(todoListStateTasks);
   }
 
-  toggleTaskStatus(Task task) async {
+  Future<void> toggleTaskStatus(Task task) async {
     TaskStatus newStatus =
         task.status == TaskStatus.todo ? TaskStatus.done : TaskStatus.todo;
     await taskRepository.updateTask(task.copyWith(status: newStatus));
-    var _ = ref.refresh(todoListStateTasks);
+    refreshState();
   }
 }
 
-final todoListControllerProvider = Provider(((ref) {
+final todoListControllerProvider = Provider.autoDispose(((ref) {
   final taskRepository = ref.watch(taskRepositoryProvider);
   return TodoListController(ref: ref, taskRepository: taskRepository);
 }));
