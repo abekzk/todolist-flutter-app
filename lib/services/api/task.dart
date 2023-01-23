@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:http/http.dart' as http;
+import 'package:todolist_flutter_app/common/config.dart';
 import 'package:todolist_flutter_app/models/task.dart';
 import 'package:todolist_flutter_app/services/api/client.dart';
 import 'package:todolist_flutter_app/services/firebase/auth.dart';
@@ -38,6 +39,5 @@ class TaskRepository {
 final taskRepositoryProvider = Provider((ref) {
   final auth = ref.watch(firebaseAuthProvider);
   return TaskRepository(
-      client: CustomClient(firebaseAuth: auth),
-      baseURL: 'http://localhost:8080');
+      client: CustomClient(firebaseAuth: auth), baseURL: AppConfig.apiURL);
 });
